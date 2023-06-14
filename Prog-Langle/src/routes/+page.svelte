@@ -1,27 +1,35 @@
 <script lang="ts">
 	let code = `
-	abstract class Animal {
-		public abstract void animalSound();
-		public void sleep() {
-			System.out.println("Zzz");
-		}
-	}
+	#! /usr/bin/env python
 
-	class Pig extends Animal {
-		public void animalSound() {
-			System.out.println("The pig says: wee wee");
-		}
-	}
+	class BottleException(Exception):
+		def __init__(self, i, c):
+			self.cause = c
+			self.cnt = i
+			try:
+				a = 1/(99-i)
+				raise BottleException(i+1, self)
+			except ZeroDivisionError:
+				pass
 
-	class Main {
-		public static void main(String[] args) {
-			Pig myPig = new Pig(); 
-			myPig.animalSound();
-			myPig.sleep();
-		}
-	}
+		def getCause(self):
+			return self.cause
+
+		def printStackTrace(self):
+			print("%d Bottle(s) of beer on the wall, %d Bottle(s) of beer" % (self.cnt, self.cnt))
+			print("Take one down and pass it around,")
+			print("%d Bottle(s) of beer on the wall" % (self.cnt - 1))
+			try:
+				self.getCause().printStackTrace()
+			except AttributeError:
+				pass
+
+	try:
+		raise BottleException(1, None)
+	except Exception, e:
+		e.printStackTrace()
 	`
-	let answer = "java"
+	let answer = "python"
 	let entry = ""
 
 	//replace every character, except for newlines, spaces and tabs
@@ -72,8 +80,8 @@
 			for (let i = 0; i < code.length; i++) {
 				if (code.substring(i, i + entry.length).toLowerCase() == entry.toLowerCase()) {
 					//make sure a space, tab, special character or newline is before and after the word
-					if (i == 0 || code[i - 1].match(/[\s\n]/g)) {
-						if (i + entry.length == code.length || code[i + entry.length].match(/[\s\n]/g)) {
+					if (i == 0 || code[i - 1].match(/[\s\n$&+,:;=?@#|'<>.^*()%!-]/g)) {
+						if (i + entry.length == code.length || code[i + entry.length].match(/[\s\n$&+,:;=?@#|'<>.^*()%!-]/g)) {
 							hidden = hidden.substring(0, i) + code.substring(i, i + entry.length) + hidden.substring(i + entry.length)
 							quantity++
 						}
@@ -110,7 +118,12 @@
 
 
 		<p>
-			<input bind:value={entry} on:keydown={e => {if (e.key == "Enter") handleGuess()}} />
+			<input 
+				bind:value={entry} 
+				placeholder="language, word or syntax" 
+				on:keydown={e => {if (e.key == "Enter") handleGuess()}} 
+				/>
+
 			<button on:click={handleGuess}>Guess</button>
 		</p>
 
@@ -128,8 +141,8 @@
 
 
 		<footer>
-			<p>By Johannes Nicholas</p>
-			<a href="https://joeyn.dev">https://joeyn.dev</a>
+			<p>By Johannes Nicholas: <a href="https://joeyn.dev">joeyn.dev</a></p>
+			<p>Source Code: <a href="https://github.com/JohannesNicholas/Prog-Langle">github.com/JohannesNicholas/Prog-Langle</a></p>
 		</footer>
 
 	</div>
@@ -171,10 +184,12 @@
 	}
 
 	footer {
-		margin-top: 3rem;
+		margin-top: 5rem;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+		font-size: 0.8rem;
 	}
+	
 	
 </style>
