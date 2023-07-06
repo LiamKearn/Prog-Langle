@@ -39,8 +39,16 @@
 	//get collection of guesses
 	const guessesCol = collection(db, 'dailyChallenges');
 
+	const now = new Date()
 
-	const todayISO = new Date().toISOString().substring(0, 10);
+	//get the local date in ISO format
+	const todayISO = now.getFullYear()
+	
+	//add a 0 to the month if it is less than 10
+	+ "-" + (now.getMonth() + 1 < 10 ? "0" : "") + (now.getMonth() + 1)
+
+	//add a 0 to the day if it is less than 10
+	+ "-" + (now.getDate() < 10 ? "0" : "") + now.getDate()
 
 	//get the document reference for the challenge for today
 	const docRef = getDoc(doc(guessesCol, todayISO)).then((doc) => {
@@ -49,7 +57,9 @@
 			todays = doc.data().problem;
 
 
-			code = todays.code
+			code = todays.code.split("```")[1].split("\n").slice(1, -1).join("\n")
+
+
 
 			//remove 3 tabs from the start of every line
 			code = code.replace(/\n\t\t\t/g, "\n")
