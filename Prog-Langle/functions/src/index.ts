@@ -1,7 +1,7 @@
 
 
-import { scheduler } from "firebase-functions/v2";
-//import { onRequest } from "firebase-functions/v2/https";
+//const {onSchedule} = require("firebase-functions/v2/scheduler");
+import { onRequest } from "firebase-functions/v2/https";
 
 import * as logger from "firebase-functions/logger";
 const { Configuration, OpenAIApi } = require("openai");
@@ -9,11 +9,10 @@ const { initializeApp } = require('firebase-admin/app');
 const { getFirestore } = require('firebase-admin/firestore');
 
 
-//export const helloWorld = onRequest(async (request, response) => {
+export const newProblem = onRequest(async (request, response) => {
 
-export const getChatGPTtoMakeNewProblem = scheduler.onSchedule("every day 00:00", async (event) => {
+//exports.newProblemV2 = onSchedule("every day 00:06", async (event: any) => {
     logger.info("Hello logs!!!!!", { structuredData: true });
-
 
 
     //work out the prompt
@@ -130,6 +129,8 @@ export const getChatGPTtoMakeNewProblem = scheduler.onSchedule("every day 00:00"
     await db.collection('dailyChallenges').doc(tomorrowISO).set(data);
 
 
+    logger.log("Done");
 
-    //response.send(`Hello from Firebase! ${generatedCode}`);
+
+    response.send(`Hello from Firebase! ${generatedCode}`);
 });

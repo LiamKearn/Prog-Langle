@@ -137,9 +137,9 @@
 			//if the guess is a word, show all hidden occurences of that word
 			for (let i = 0; i < code.length; i++) {
 				if (code.substring(i, i + entry.length).toLowerCase() == entry.toLowerCase()) {
-					//make sure a space, tab, special character or newline is before and after the word
-					if (i == 0 || code[i - 1].match(/[\s\n$&+,:;=?@#|'<>.^*()%!-]/g)) {
-						if (i + entry.length == code.length || code[i + entry.length].match(/[\s\n$&+,:;=?@#|'<script>.^*()%!-]/g)) {
+					//make sure the character before and after the word are not letters
+					if (i == 0 || !code[i - 1].match(/[a-z]/i) ) {
+						if (i + entry.length == code.length || !code[i + entry.length].match(/[a-z]/i)) {
 							hidden = hidden.substring(0, i) + code.substring(i, i + entry.length) + hidden.substring(i + entry.length)
 							quantity++
 						}
