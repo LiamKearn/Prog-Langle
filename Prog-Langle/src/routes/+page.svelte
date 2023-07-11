@@ -59,8 +59,6 @@
 
 			code = todays.code.split("```")[1].split("\n").slice(1, -1).join("\n")
 
-
-
 			//remove 3 tabs from the start of every line
 			code = code.replace(/\n\t\t\t/g, "\n")
 
@@ -148,10 +146,16 @@
 			}
 		}
 
-		guesses.push({name: entry, quantity: quantity})
+		//insert at the start of the array
+		guesses.unshift({name: entry, quantity: quantity})
 		guesses = guesses;
 
 		entry = ""
+	}
+
+	
+	function inputInit(node : HTMLInputElement) {
+		node.focus()
 	}
 
 	
@@ -171,7 +175,9 @@
 		
 	
 
-		<pre class="code">{@html hidden.replaceAll("▮", "<span style='background-color: black'>#</span>")}</pre>
+		<pre class="code">{@html ("<span>" + hidden.split("").join("</span><span>") + "</span>").replaceAll("▮", "<span style='background-color: black'>#</span>")}</pre>
+
+		<!-- <pre class="code">{@html hidden.replaceAll("▮", "<span style='background-color: black'>#</span>")}</pre> -->
 
 
 
@@ -180,6 +186,7 @@
 				bind:value={entry} 
 				placeholder="language, word or syntax" 
 				on:keydown={e => {if (e.key == "Enter") handleGuess()}} 
+				use:inputInit
 				/>
 
 			<button on:click={handleGuess}>Guess</button>
@@ -249,6 +256,35 @@
 		flex-direction: column;
 		align-items: center;
 		font-size: 0.8rem;
+	}
+
+
+	input {
+		font-family: 'Courier New', monospace;
+		font-size: 0.8rem;
+		padding: 0.5rem;
+		border: 1px solid grey;
+		border-radius: 5rem;
+		width: 27ch;
+		/* inner shadow */
+		box-shadow: inset 2px 3px 5px 0px rgba(0, 0, 0, 0.445);
+	}
+	button {
+		font-family: 'Courier New', monospace;
+		font-size: 0.8rem;
+		padding: 0.5rem;
+		border: 1px solid grey;
+		border-radius: 5rem;
+		background-color: white;
+		/* drop shadow */
+		box-shadow: inset -2px -3px 5px 0px rgba(0, 0, 0, 0.507);
+		
+	}
+
+	button:hover {
+		background-color: rgb(228, 228, 228);
+		cursor: pointer;
+		box-shadow: inset -2px -3px 5px 0px rgba(0, 0, 0, 0.404);
 	}
 	
 	
