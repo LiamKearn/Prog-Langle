@@ -46,6 +46,25 @@ export const newProblem = onRequest(async (request, response) => {
         "swift": 0.5,
         "visual basic": 0.2,
         "dart": 0.5,
+        "cobol": 0.1,
+        "algol": 0.1,
+        "Amiga-E": 0.02,
+        "Prolog": 0.1,
+        "clojure": 0.1,
+        "f#": 0.1,
+        "julia": 0.1,
+        "machine code": 0.1,
+        "emojicode": 0.07,
+        "brainfuck": 0.5,
+        "lolcode": 0.02,
+        "rockstar": 0.02,
+        "powershell": 0.1,
+        "batch": 0.05,
+        "Whitespace": 0.07,
+        
+
+
+
     }
 
     const tasks : string[] = [
