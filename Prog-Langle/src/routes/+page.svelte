@@ -162,8 +162,8 @@
 </script>
 
 <svelte:head>
-	<title>Home</title>
-	<meta name="description" content="Svelte demo app" />
+	<title>Prog-Langle</title>
+	<meta name="description" content="The programming language guessing game" />
 </svelte:head>
 
 
