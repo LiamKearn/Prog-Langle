@@ -61,7 +61,7 @@ export const newProblem = onRequest(async (request, response) => {
         "powershell": 0.1,
         "batch": 0.05,
         "Whitespace": 0.07,
-        
+        "LOGO": 1,
 
 
 
@@ -75,32 +75,39 @@ export const newProblem = onRequest(async (request, response) => {
         "writes to a file",
         "makes a network request",
         "uses a library",
-        "uses a data structure"
+        "uses a data structure",
+        "uses a binary tree",
+        "draws a christmas tree",
+        "solves for pi",
     ]
 
 
 
+    //THIS CODE uses weights
+    // let random = Math.random()
 
-    let random = Math.random()
+    // //find the total weight of all the languages
+    // let total = 0
+    // for (const [_, value] of Object.entries(languages)) {
+    //     total += value
+    // }
 
-    //find the total weight of all the languages
-    let total = 0
-    for (const [_, value] of Object.entries(languages)) {
-        total += value
-    }
+    // let target = random * total
 
-    let target = random * total
+    // //find the language
+    // let language = ""
+    // let runningTotal = 0
+    // for (const [key, value] of Object.entries(languages)) {
+    //     runningTotal += value
+    //     if (target < runningTotal) {
+    //         language = key
+    //         break
+    //     }
+    // }
 
-    //find the language
-    let language = ""
-    let runningTotal = 0
-    for (const [key, value] of Object.entries(languages)) {
-        runningTotal += value
-        if (target < runningTotal) {
-            language = key
-            break
-        }
-    }
+
+    //THIS CODE DOES NOT USE WEIGHTS TO FIND THE LANGUAGE
+    const language = languages[Math.floor(Math.random() * languages.length)];
 
     //pick a random task
     const task = tasks[Math.floor(Math.random() * tasks.length)];
