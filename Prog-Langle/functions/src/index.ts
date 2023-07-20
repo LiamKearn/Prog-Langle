@@ -107,14 +107,11 @@ export const newProblem = onRequest(async (request, response) => {
 
 
     //THIS CODE DOES NOT USE WEIGHTS TO FIND THE LANGUAGE
-    const language = languages[Math.floor(Math.random() * languages.length)];
+    const languagesArray = Object.entries(languages);
+    const [language, _] = languagesArray[Math.floor(Math.random() * languagesArray.length)];
 
     //pick a random task
     const task = tasks[Math.floor(Math.random() * tasks.length)];
-
-
-
-
 
 
 
@@ -132,7 +129,15 @@ export const newProblem = onRequest(async (request, response) => {
 
     logger.info("Output: ", chat_completion.data)
 
-    const generatedCode = chat_completion.data.choices[0].message.content
+    const generatedCode : string = chat_completion.data.choices[0].message.content
+
+    // Make sure the generated code contains a code block
+    if (!generatedCode.includes("```")) {
+        logger.error("Generated code does not contain code block")
+        logger.error("Generated code: ", generatedCode)
+        throw new Error("Generated code does not contain code block")
+    }
+
 
 
 
@@ -151,6 +156,10 @@ export const newProblem = onRequest(async (request, response) => {
 
     // Add a new document in collection "cities" with ID 'LA'
     const tomorrowISO = new Date(new Date().getTime() + 24 * 60 * 60 * 1000).toISOString().substring(0, 10);
+
+
+
+    logger.info("Data: ", data)
 
     await db.collection('dailyChallenges').doc(tomorrowISO).set(data);
 
