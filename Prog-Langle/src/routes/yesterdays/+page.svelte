@@ -39,16 +39,17 @@
 	//get collection of guesses
 	const guessesCol = collection(db, 'dailyChallenges');
 
-	const now = new Date()
+	//const now = new Date()
+	const yesterday = new Date(new Date().getTime() - (24 * 60 * 60 * 1000));
 
 	//get the local date in ISO format
-	const todayISO = now.getFullYear()
+	const todayISO = yesterday.getFullYear()
 	
 	//add a 0 to the month if it is less than 10
-	+ "-" + (now.getMonth() + 1 < 10 ? "0" : "") + (now.getMonth() + 1)
+	+ "-" + (yesterday.getMonth() + 1 < 10 ? "0" : "") + (yesterday.getMonth() + 1)
 
 	//add a 0 to the day if it is less than 10
-	+ "-" + (now.getDate() < 10 ? "0" : "") + now.getDate()
+	+ "-" + (yesterday.getDate() < 10 ? "0" : "") + yesterday.getDate()
 
 	//get the document reference for the challenge for today
 	const docRef = getDoc(doc(guessesCol, todayISO)).then((doc) => {
@@ -66,7 +67,7 @@
 			entry = ""
 
 			//replace every character, except for newlines, spaces and tabs
-			hidden = code.replace(/[^\n \t]/g, "▮")
+			hidden = code
 
 
 		} else {
@@ -79,6 +80,7 @@
 
 
 
+	let date = new Date().getDate()
 
 	let todays = {code: "", language: ""}
 
@@ -87,10 +89,8 @@
 	let answer = todays.language
 	let entry = ""
 
-	let won = false
-
 	//replace every character, except for newlines, spaces and tabs
-	let hidden = code.replace(/[^\n \t]/g, "▮")
+	let hidden = code
 
 	let guesses: {
 		name: String, 
@@ -107,7 +107,6 @@
 		//check if the guess is correct
 		if (entry.toLowerCase() == answer.toLowerCase()) {
 			hidden = code
-			won = true
 			return
 		}
 
@@ -161,25 +160,6 @@
 	}
 
 	
-
-
-    function share(event: MouseEvent & { currentTarget: EventTarget & HTMLButtonElement; }) {
-        var text = "Prog-Langle (" + todayISO + '):\n`'
-
-		guesses.forEach(guess => {
-			text += guess.quantity + ' '
-		});
-
-		text += '| '
-		
-		text += (won) ? guesses.length : '?'
-
-		text += '`'
-
-		navigator.clipboard.writeText(text);
-
-		alert("Results copied to clipboard")
-    }
 </script>
 
 <svelte:head>
@@ -192,9 +172,8 @@
 <section>
 	<div class="center">
 		<h1>Prog-Langle</h1>
-		
-		<h2>The programming language guessing game</h2>
-		<a href="/yesterdays" target="_blank">View yesterdays answer</a>
+		<h2>Yesterdays language was:</h2>
+		<h1>{answer}</h1>
 		
 	
 
@@ -204,32 +183,7 @@
 
 
 
-		<p>
-			<input 
-				bind:value={entry} 
-				placeholder="language, word or syntax" 
-				on:keydown={e => {if (e.key == "Enter") handleGuess()}} 
-				use:inputInit
-				/>
-
-			<button on:click={handleGuess}>Guess</button>
-			
-		</p>
-
-		<h2>{guesses.length} guesses</h2>
-
-		<table>
-			{#each guesses as guess}
-				<tr>
-					<td>{guess.name}</td>
-					<td>|</td>
-					<td>{guess.quantity}</td>
-				</tr>
-			{/each}
-		</table>
-
-		<button on:click={share}>Share</button>
-
+		<!-- <a href="/">Back to todays challenge</a> -->
 
 
 		<footer>
