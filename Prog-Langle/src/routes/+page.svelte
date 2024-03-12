@@ -176,9 +176,13 @@
 
 		text += '`'
 
-		navigator.clipboard.writeText(text);
-
-		alert("Results copied to clipboard")
+		navigator.clipboard.writeText(text)
+			.then(() => {
+				alert("Results copied to clipboard")
+			})
+			.catch(_ => {
+				alert("Could not copy results to clipboard")
+			})
     }
 </script>
 
